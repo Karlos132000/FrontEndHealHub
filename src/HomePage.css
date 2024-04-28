@@ -1,0 +1,72 @@
+.new-home-container {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.search-container {
+    margin-top: 60px;
+}
+
+.search-container input {
+    width: 60%;
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-container button {
+    padding: 10px 20px;
+    background-color: #5c67f2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.animated-text-container {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.animated-text {
+    position: absolute;
+    white-space: nowrap;
+    opacity: 0;
+    animation: fade-in-out 20s linear infinite; /* total animation time reduced to 5 seconds */
+}
+
+/* First text */
+.animated-text:first-child {
+    animation-delay: -4.5s; /* half the duration time to create the offset */
+}
+
+/* Second text */
+.animated-text:last-child {
+    animation-delay: 4s;
+}
+
+@keyframes fade-in-out {
+    0%, 50% {
+        opacity: 0;
+        transform: translateY(20px); /* slightly move up while fading */
+    }
+    25% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    75% {
+        opacity: 0;
+        transform: translateY(-20px); /* slightly move down while fading */
+    }
+}
+
+
