@@ -70,7 +70,7 @@ const ProfilePage = () => {
             if (response.ok) {
                 // Remove the deleted appointment from state
                 setAppointments(appointments.filter(appointment => appointment.id !== appointmentId));
-                alert('Appointment cancelled successfully.');
+                alert('alert');
             } else {
                 throw new Error('Could not cancel the appointment.');
             }
@@ -129,14 +129,13 @@ const ProfilePage = () => {
 
     return (
         <div className="profile-container">
-            //tr
-            <h2 className="profile-title">User Profile</h2>
-            <div className="profile-info">Email: {userDetails.email}</div>
-            <div className="profile-info">Username: {userDetails.username}</div>
-            <div className="profile-info">City: {userDetails.city}</div>
-            <div className="profile-info">Region: {userDetails.region}</div>
-            <div className="profile-info">Type: {userDetails.role}</div>
-            <div className="profile-info">Phone Number: {userDetails.phoneNumber}</div>
+            <h2 className="profile-title">Профиль пользователя</h2>
+            <div className="profile-info"> почта: {userDetails.email}</div>
+            <div className="profile-info">Имя пользователя: {userDetails.username}</div>
+            <div className="profile-info">Город: {userDetails.city}</div>
+            <div className="profile-info">Регион: {userDetails.region}</div>
+            <div className="profile-info">Тип: {userDetails.role}</div>
+            <div className="profile-info">Номер телефона: {userDetails.phoneNumber}</div>
 
             <img src={userDetails.imageUrl || 'http://localhost:3360/images/default-profile.png'} alt="Profile" className="profile-image"/>
             <input type="file" onChange={handleImageUpload} />
@@ -151,7 +150,7 @@ const ProfilePage = () => {
                     ))
                 ) : (
                     //tr
-                    <p>No appointments found.</p>
+                    <p>Не найдено записи.</p>
                 )}
             </ul>
         </div>

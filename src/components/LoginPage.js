@@ -22,29 +22,27 @@ const LoginPage = ({ setLoggedIn }) => {
                 setLoggedIn(true);
                 navigate('/');
             } else {
-                alert('Login failed. Please check your credentials and try again.');
+                alert('Вход в систему не удался. Пожалуйста, проверьте свои учетные данные и повторите попытку.');
             }
         } catch (error) {
             console.error('Login error:', error);
-            alert('Login failed due to a network error.');
+            alert('Вход не удался из за сетевой ошибки.');
         }
     };
 
     return (
         <div className="login-container">
-            <h2 className="login-title">Login</h2>
+            <h2 className="login-title">Вход</h2>
             <form onSubmit={handleSubmit} className="login-form">
                 <div>
-                    //tr
-                    <label>Email:</label>
+                    <label>почта:</label>
                     <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
                 </div>
                 <div>
-                    //tr
-                    <label>Password:</label>
+                    <label>Пароль:</label>
                     <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
                 </div>
-                <button type="submit">Logintr</button>
+                <button type="submit">Вход</button>
             </form>
         </div>
     );

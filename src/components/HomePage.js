@@ -45,13 +45,13 @@ const HomePage = () => {
 
     return (
         <div className="new-home-container">
-            <h1>Find Your Specialist</h1>
+            <h1>Найдите специалиста</h1>
             <AnimatedText />
 
             <div className="search-container">
                 <input
                     type="text"
-                    placeholder="Search for a specialty..."
+                    placeholder="Поиск специальности..."
                     value={selectedSpecialty}
                     onChange={handleSpecialtyChange}
                     list="specialty-list"
@@ -61,7 +61,7 @@ const HomePage = () => {
                         <option key={specialty.id} value={specialty.name} />
                     ))}
                 </datalist>
-                <button onClick={handleSearch}>Browse</button>
+                <button onClick={handleSearch}>Найти</button>
             </div>
 
             <img src={medicalProfessionalsImage} alt="Healthcare professionals" className="overview-image" />

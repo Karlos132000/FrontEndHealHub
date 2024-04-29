@@ -36,30 +36,30 @@ const RegisterPage = () => {
             if (response.ok) {
                 navigate('/login');
             } else {
-                alert('Registration failed. Please try again.');
+                alert('Регистрация не удалась, Пожалуйста, попробуйте еще раз.');
             }
         } catch (error) {
             console.error('Registration error:', error);
-            alert('Registration failed due to a network error.');
+            alert('Регистрация не удалась из за сетевой ошибки.');
         }
     };
 
     return (
         <div className="register-container">
-            <h2 className="register-title">Register</h2>
+            <h2 className="register-title">Регистрация</h2>
             <form onSubmit={handleSubmit} className="register-form">
-                <input type="email" name="email" placeholder="Email 8" value={formData.email} onChange={handleChange} required />
-                <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} required />
-                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
-                <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} required />
-                <input type="text" name="region" placeholder="Region" value={formData.region} onChange={handleChange} required />
-                <input type="tel" name="phoneNumber" placeholder="Phone Number" value={formData.phoneNumber} onChange={handleChange} required />
+                <input type="email" name="email" placeholder="почта" value={formData.email} onChange={handleChange} required />
+                <input type="text" name="username" placeholder="Имя пользователя" value={formData.username} onChange={handleChange} required />
+                <input type="password" name="password" placeholder="Пароль" value={formData.password} onChange={handleChange} required />
+                <input type="text" name="city" placeholder="Город" value={formData.city} onChange={handleChange} required />
+                <input type="text" name="region" placeholder="Регион" value={formData.region} onChange={handleChange} required />
+                <input type="tel" name="phoneNumber" placeholder="Номер телефона" value={formData.phoneNumber} onChange={handleChange} required />
 
                 {/*<input type="text" name="role" placeholder="Role" value={formData.role} onChange={handleChange} />*/}
                 {/*<input type="number" name="specialtyId" placeholder="Specialty ID (optional)" value={formData.specialtyId} onChange={handleChange} />*/}
                 {/*<input type="number" name="clinicId" placeholder="Clinic ID" value={formData.clinicId} onChange={handleChange} />*/}
 
-                <button type="submit">Register tr</button>
+                <button type="submit">Регистрация</button>
             </form>
         </div>
     );

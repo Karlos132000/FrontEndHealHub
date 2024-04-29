@@ -92,7 +92,7 @@ const BookingPage = () => {
                 setDoctors(data);
             } catch (error) {
                 console.error('Failed to fetch doctors:', error);
-                alert('Failed to fetch doctors: ' + error.message);
+                alert('Не удалось получить врачей: ' + error.message);
             } finally {
                 setIsLoading(false);
             }
@@ -174,7 +174,7 @@ const BookingPage = () => {
 
     const handleSearch = async () => {
         if (!selectedSpecialtyId || !selectedCity || !selectedRegion) {
-            alert('Please select a specialty, city, and region.');
+            alert('Пожалуйста, выберите специальность, город и регион.');
             return;
         }
         setIsLoading(true);
@@ -186,7 +186,7 @@ const BookingPage = () => {
             setShowMap(true); // Show the map as clinics are fetched
         } catch (error) {
             console.error(error);
-            alert('Failed to fetch clinics.');
+            alert('Не удалось получить клиники.');
             setShowMap(false); // Hide the map on error
         } finally {
             setIsLoading(false);
@@ -276,7 +276,7 @@ const BookingPage = () => {
                 if (!response.ok) {
                     throw new Error('Problem booking appointment');
                 }
-//tr
+
                 alert('успешно забронировано');
             } catch (error) {
                 console.error('Error booking appointment:', error);
@@ -325,11 +325,11 @@ const BookingPage = () => {
     return (
         <div className="home-container">
 
-            <h1 className="home-title">Welcome to Our Medical Appointment Booking System</h1>
+            <h1 className="home-title">Добро пожаловать в нашу систему бронирования медицинских назначений</h1>
 
             <div className="select-container">
                 <select value={selectedSpecialtyId} onChange={handleSpecialtyChange}>
-                    <option value="">Select a Specialty</option>
+                    <option value="">Выберите специальность</option>
                     {specialties.map((specialty) => (
                         <option key={specialty.id} value={specialty.id}>
                             {specialty.name}
@@ -339,7 +339,7 @@ const BookingPage = () => {
 
 
                 <select value={selectedCity} onChange={handleCityChange}>
-                    <option value="">Select City</option>
+                    <option value="">Выберите город</option>
                     {Object.keys(citiesWithRegions).map(city => (
                         <option key={city} value={city}>{city}</option>
                     ))}
@@ -354,7 +354,7 @@ const BookingPage = () => {
                     </select>
                 )}
 
-                <button onClick={handleSearch} disabled={isLoading}>Search Clinics</button>
+                <button onClick={handleSearch} disabled={isLoading}>Поиск клиник</button>
             </div>
 
             {/*{!isLoading && clinics.length > 0 && (*/}
