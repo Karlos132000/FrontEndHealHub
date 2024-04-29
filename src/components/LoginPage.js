@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './LoginPage.css'; // Ensure you import the CSS file correctly
+import '../styles/LoginPage.css'; // Ensure you import the CSS file correctly
 
 const LoginPage = ({ setLoggedIn }) => {
     const [email, setEmail] = useState('');
@@ -35,14 +35,16 @@ const LoginPage = ({ setLoggedIn }) => {
             <h2 className="login-title">Login</h2>
             <form onSubmit={handleSubmit} className="login-form">
                 <div>
+                    //tr
                     <label>Email:</label>
                     <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
                 </div>
                 <div>
+                    //tr
                     <label>Password:</label>
                     <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit">Logintr</button>
             </form>
         </div>
     );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import './BookingPage.css'; // Import the new CSS file here
+import '../styles/BookingPage.css'; // Import the new CSS file here
 import { useLocation, useNavigate } from 'react-router-dom';
 
 
@@ -195,7 +195,7 @@ const BookingPage = () => {
 
     const bookAppointment = async () => {
         if (!selectedDoctor || !appointmentDate || !appointmentTime) {
-            alert('Please select a doctor, date, and time for your appointment.');
+            alert('Пожалуйста, выберите врача, дату и время приема.');
 
             return;
         }
@@ -223,10 +223,10 @@ const BookingPage = () => {
             if (!response.ok) {
                 throw new Error('Problem booking appointment');
             }
-            alert('Appointment booked successfully!');
+            alert('успешно забронировано!');
         } catch (error) {
             console.error('Error booking appointment:', error);
-            alert('Failed to book appointment.');
+            alert('Не удалось записаться на прием.');
         }
     };
 
@@ -247,7 +247,7 @@ const BookingPage = () => {
 
         const bookDoctorAppointment = async () => {
             if (!selectedDate || !selectedTime) {
-                alert('Please select a date and time for your appointment.');
+                alert('Пожалуйста, выберите дату и время для встречи.');
                 return;
             }
 
@@ -276,11 +276,11 @@ const BookingPage = () => {
                 if (!response.ok) {
                     throw new Error('Problem booking appointment');
                 }
-
-                alert('Appointment booked successfully!');
+//tr
+                alert('успешно забронировано');
             } catch (error) {
                 console.error('Error booking appointment:', error);
-                alert('Failed to book appointment.');
+                alert('Не удалось записаться на прием.');
             }
 
 

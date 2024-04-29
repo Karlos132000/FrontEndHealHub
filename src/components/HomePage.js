@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HomePage.css'; // Import the new CSS file here
-import medicalProfessionalsImage from './3635297.png'; // Import the image here
+import '../styles/HomePage.css'; // Import the new CSS file here
+import medicalProfessionalsImage from '../assets/images/3635297.png'; // Import the image here
 
 
 const HomePage = () => {
@@ -38,8 +38,8 @@ const HomePage = () => {
     };
     const AnimatedText = () => (
         <div className="animated-text-container">
-            <p className="animated-text">Easy & fast Doctor bookings. Your health is our priority.</p>
-            <p className="animated-text">Easy & fast Clinic bookings. Your health is our priority.</p>
+            <p className="animated-text">Простая и быстрая запись к врач, Ваше здоровье наш приоритет.</p>
+            <p className="animated-text">Простая и быстрая запись в клинику, Ваше здоровье наш приоритет.</p>
         </div>
     );
 

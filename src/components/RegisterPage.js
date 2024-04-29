@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './RegisterPage.css'; // Ensure you import the CSS file correctly
+import '../styles/RegisterPage.css'; // Ensure you import the CSS file correctly
 
 const RegisterPage = () => {
     const [formData, setFormData] = useState({
@@ -48,7 +48,7 @@ const RegisterPage = () => {
         <div className="register-container">
             <h2 className="register-title">Register</h2>
             <form onSubmit={handleSubmit} className="register-form">
-                <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                <input type="email" name="email" placeholder="Email 8" value={formData.email} onChange={handleChange} required />
                 <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} required />
                 <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
                 <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} required />
@@ -59,7 +59,7 @@ const RegisterPage = () => {
                 {/*<input type="number" name="specialtyId" placeholder="Specialty ID (optional)" value={formData.specialtyId} onChange={handleChange} />*/}
                 {/*<input type="number" name="clinicId" placeholder="Clinic ID" value={formData.clinicId} onChange={handleChange} />*/}
 
-                <button type="submit">Register</button>
+                <button type="submit">Register tr</button>
             </form>
         </div>
     );

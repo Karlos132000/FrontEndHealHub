@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import './ProfilePage.css';
+import '../styles/ProfilePage.css';
 const ProfilePage = () => {
 
     const [userDetails, setUserDetails] = useState({});
@@ -129,6 +129,7 @@ const ProfilePage = () => {
 
     return (
         <div className="profile-container">
+            //tr
             <h2 className="profile-title">User Profile</h2>
             <div className="profile-info">Email: {userDetails.email}</div>
             <div className="profile-info">Username: {userDetails.username}</div>
@@ -149,6 +150,7 @@ const ProfilePage = () => {
                         </li>
                     ))
                 ) : (
+                    //tr
                     <p>No appointments found.</p>
                 )}
             </ul>
