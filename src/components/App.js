@@ -6,6 +6,11 @@ import RegisterPage from './RegisterPage';
 import ProfilePage from './ProfilePage';
 // import SpecialtiesPage from './SpecialtiesPage';
 import HomePage from './HomePage'; // Import the new homepage component
+import AboutUsPage from './AboutUsPage'; // Import the new About Us Page component
+import Footer from './Footer'; // Import the Footer component
+import logo from '../assets/images/HealHubLogoV2.png';
+
+
 
 import '../styles/App.css'; // Ensure you have an App.css file for styles
 
@@ -27,14 +32,22 @@ function App() {
       <Router>
         <div className="app-container">
           <nav className="top-nav">
+            <Link to="/">
+              <img src={logo} alt="HealHub Logo" className="app-logo" />
+            </Link>
+
             <ul>
               <li><Link to="/">Главная</Link></li>
               <li><Link to="/booking">Запись на прием</Link></li> {/* Add this line */}
               {!isLoggedIn && <li><Link to="/login">Вход</Link></li>}
-              {!isLoggedIn && <li><Link to="/register">Регистрация</Link></li>}
+              {!isLoggedIn && <li><Link to="/register">Регистрацияr</Link></li>}
               {isLoggedIn && <li><Link to="/profile">Профиль</Link></li>}
+              <Footer /> {/* Add the Footer component here */}
+
               {/*<li><Link to="/specialties">Specialties</Link></li>*/}
-              {isLoggedIn && <li><button onClick={handleLogout}>Выход</button></li>}
+              {isLoggedIn && <li><button onClick={handleLogout}>Выход </button></li>}
+              <li><Link to="/about">О нас</Link></li>
+
             </ul>
           </nav>
           <Routes>
@@ -42,6 +55,8 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/profile" element={isLoggedIn ? <ProfilePage /> : <Navigate replace to="/login" />} />
             {/*<Route path="/specialties" element={<SpecialtiesPage />} />*/}
+            <Route path="/about" element={<AboutUsPage />} /> {/* New route for About Us */}
+
             <Route path="/booking" element={<BookingPage />} />
             <Route path="/" element={<HomePage />} />
           </Routes>

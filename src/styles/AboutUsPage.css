@@ -1,0 +1,121 @@
+/* AboutUsPage.css */
+
+.about-page {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    font-family: 'Arial', sans-serif;
+}
+
+.about-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.about-text {
+    flex-basis: 50%;
+    padding-right: 20px;
+}
+
+.about-title {
+    color: #003366;
+    margin-bottom: 0.5em;
+}
+
+.about-description {
+    line-height: 1.5;
+    margin-bottom: 1em;
+}
+
+.about-read-more {
+    background-color: #5c67f2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.about-read-more:hover {
+    background-color: #4a56d2;
+}
+
+.about-image {
+    flex-basis: 50%;
+    text-align: right;
+}
+
+.about-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.additional-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.additional-text {
+    flex-basis: 50%;
+}
+
+.additional-image {
+    flex-basis: 50%;
+    text-align: left;
+}
+
+.additional-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .about-section, .additional-content {
+        flex-direction: column;}
+    .additional-content {
+        flex-direction: column;
+    }
+}
+
+.about-image, .additional-image {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about-text, .additional-text {
+    text-align: center;
+}
+
+.about-text, .additional-text, .about-image, .additional-image {
+    flex-basis: 100%;
+}
+
+/*.additional-content .additional-image {*/
+/*    order: showMore ? 2 : 1; !* This will need to be controlled in JS if you want a dynamic order swap *!*/
+/*    flex-basis: 50%;*/
+/*    text-align: left; !* Align left if image is on the left side *!*/
+/*}*/
+
+/*.additional-content .additional-text {*/
+/*    order: showMore ? 1 : 2; !* This will need to be controlled in JS if you want a dynamic order swap *!*/
+/*    flex-basis: 50%;*/
+/*    padding-left: 20px; !* Add padding if text is on the right side *!*/
+/*}*/
+
+.additional-content .additional-image,
+.additional-content .additional-text {
+    order: unset;
+    text-align: center;
+    flex-basis: 100%;
+    padding-left: 0;
+}
+
