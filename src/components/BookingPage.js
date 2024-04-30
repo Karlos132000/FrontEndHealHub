@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import '../styles/BookingPage.css'; // Import the new CSS file here
 import { useLocation, useNavigate } from 'react-router-dom';
+import LocationMarkerImage from '../assets/images/LocationMarker.png';
 
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet'; // Import Leaflet library
+import Flatpickr from 'react-flatpickr';
 
+import 'flatpickr/dist/flatpickr.min.css'; // Make sure you import the CSS
 
 
 // Define your cities and regions mapping
@@ -14,6 +19,15 @@ const citiesWithRegions = {
     // ... more cities and regions
 };
 
+const formatTime24Hour = (timeString) => {
+    const time = new Date('1970-01-01T' + timeString + 'Z');
+    return time.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', hour12: false });
+};
+
+const formatDateToRussian = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+};
 
 
 const BookingPage = () => {
@@ -36,6 +50,12 @@ const BookingPage = () => {
 
     const query = new URLSearchParams(location.search);
     const specialtyQueryParam = query.get('specialty');
+
+    const locationMarkerIcon = L.icon({
+        iconUrl: LocationMarkerImage,
+        iconSize: [32, 32], // Set the size of the marker icon
+        iconAnchor: [16, 32], // Set the anchor point of the marker icon
+    });
 
     useEffect(() => {
         if (specialtyQueryParam) {
@@ -92,7 +112,7 @@ const BookingPage = () => {
                 setDoctors(data);
             } catch (error) {
                 console.error('Failed to fetch doctors:', error);
-                alert('Не удалось получить врачей: ' + error.message);
+                alert('Failed to fetch doctors: ' + error.message);
             } finally {
                 setIsLoading(false);
             }
@@ -160,8 +180,11 @@ const BookingPage = () => {
     };
 
     const handleAppointmentTimeChange = (e) => {
-        setAppointmentTime(e.target.value);
+        // Convert input time to 24-hour format immediately or before using it
+        const formattedTime = formatTime24Hour(e.target.value);
+        setAppointmentTime(formattedTime);
     };
+
 
     // const [mapCenter, setMapCenter] = useState([50.5, 30.5]); // Default center
 
@@ -174,7 +197,7 @@ const BookingPage = () => {
 
     const handleSearch = async () => {
         if (!selectedSpecialtyId || !selectedCity || !selectedRegion) {
-            alert('Пожалуйста, выберите специальность, город и регион.');
+            alert('Please select a specialty, city, and region.');
             return;
         }
         setIsLoading(true);
@@ -186,7 +209,7 @@ const BookingPage = () => {
             setShowMap(true); // Show the map as clinics are fetched
         } catch (error) {
             console.error(error);
-            alert('Не удалось получить клиники.');
+            alert('Failed to fetch clinics.');
             setShowMap(false); // Hide the map on error
         } finally {
             setIsLoading(false);
@@ -195,12 +218,16 @@ const BookingPage = () => {
 
     const bookAppointment = async () => {
         if (!selectedDoctor || !appointmentDate || !appointmentTime) {
-            alert('Пожалуйста, выберите врача, дату и время приема.');
+            alert('Please select a doctor, date, and time for your appointment.');
 
             return;
         }
 
-        const formattedDate = new Date(appointmentDate).toISOString().split('T')[0];
+        const formattedDate = new Date(appointmentDate).toLocaleDateString('ru-RU', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
         const combinedDateTime = `${formattedDate}T${appointmentTime}`;
 
         const appointmentDetails = {
@@ -223,10 +250,10 @@ const BookingPage = () => {
             if (!response.ok) {
                 throw new Error('Problem booking appointment');
             }
-            alert('успешно забронировано!');
+            alert(' успешно забронировано!!');
         } catch (error) {
             console.error('Error booking appointment:', error);
-            alert('Не удалось записаться на прием.');
+            alert('Failed to book appointment.');
         }
     };
 
@@ -247,24 +274,21 @@ const BookingPage = () => {
 
         const bookDoctorAppointment = async () => {
             if (!selectedDate || !selectedTime) {
-                alert('Пожалуйста, выберите дату и время для встречи.');
+                alert('Please select a date and time for your appointment.');
                 return;
             }
 
-            const formattedDate = new Date(selectedDate).toISOString().split('T')[0];
-            const combinedDateTime = `${formattedDate}T${selectedTime}`;
-
-
+            const formattedDate = formatDateToRussian(selectedDate);
+            const formattedTime = formatTime24Hour(selectedTime); // Ensure time is in 24-hour format
+            const combinedDateTime = `${formattedDate}T${formattedTime}`;
 
             const appointmentDetails = {
-                doctorId: doctor.id, // Here, you'll use the doctor's id from the doctor prop
-                userId: localStorage.getItem('userId'), // You might be managing user state differently
-                clinicId: doctor.clinic.id, // Adjust this to how you're storing clinic data
-                specialtyId: doctor.specialty.id, // Adjust this to how you're storing specialty data
+                doctorId: doctor.id,
+                userId: localStorage.getItem('userId'),
+                clinicId: doctor.clinic.id,
+                specialtyId: doctor.specialty.id,
                 dateTime: combinedDateTime,
             };
-
-            console.log("Appointment Details:", appointmentDetails);
 
             try {
                 const response = await fetch('http://localhost:3360/appointments/book', {
@@ -277,26 +301,25 @@ const BookingPage = () => {
                     throw new Error('Problem booking appointment');
                 }
 
-                alert('успешно забронировано');
+                alert('успешно забронировано!!');
             } catch (error) {
                 console.error('Error booking appointment:', error);
-                alert('Не удалось записаться на прием.');
+                alert('Failed to book appointment.');
             }
-
-
         };
+
         return (
             <div className="doctor-details-container">
                 <div className="doctor-profile">
                     <img src={doctor.user.imageUrl} alt={doctor.name} className="doctor-image" />
                     <div className="doctor-info">
                         <h2>{doctor.name}</h2>
-                        <p>Specialty: {doctor.specialty.name}</p>
-                        <p>Clinic: {doctor.clinic.name}</p>
-                        <p>Contact: {doctor.user.email}</p>
+                        <p>Специализация: {doctor.specialty.name}</p>
+                        <p>Клиника: {doctor.clinic.name}</p>
+                        <p>Email: {doctor.user.email}</p>
                         <div className="booking-container">
                             <div className="date-picker-container">
-                                <label htmlFor="appointment-date">Choose a date:</label>
+                                <label htmlFor="appointment-date">Выберите дату:</label>
                                 <input
                                     id="appointment-date"
                                     type="date"
@@ -305,27 +328,33 @@ const BookingPage = () => {
                                 />
                             </div>
                             <div className="time-picker-container">
-                                <label htmlFor="appointment-time">Choose a time:</label>
-                                <input
-                                    id="appointment-time"
-                                    type="time"
-                                    value={selectedTime}
+                                <label htmlFor="appointment-time">Выберите время:</label>
+                                <Flatpickr
+                                    data-enable-time
+                                    value={appointmentTime}
                                     onChange={handleTimeChange}
-                                    step="1800" // This makes time options in 30 minutes interval
+                                    options={{
+                                        enableTime: true,
+                                        noCalendar: true,
+                                        dateFormat: "H:i",
+                                        time_24hr: true
+                                    }}
                                 />
                             </div>
-                            <button onClick={bookDoctorAppointment}>Book Appointment</button>
+                            <button onClick={bookDoctorAppointment}>Записаться на прием</button>
                         </div>
                     </div>
                 </div>
             </div>
         );
+
+
     };
 
     return (
         <div className="home-container">
 
-            <h1 className="home-title">Добро пожаловать в нашу систему бронирования медицинских назначений</h1>
+            <h1 className="home-title">Записаться на прием</h1>
 
             <div className="select-container">
                 <select value={selectedSpecialtyId} onChange={handleSpecialtyChange}>
@@ -347,7 +376,7 @@ const BookingPage = () => {
 
                 {selectedCity && (
                     <select value={selectedRegion} onChange={handleRegionChange}>
-                        <option value="">Select Region</option>
+                        <option value="">Выберите регион</option>
                         {regions.map(region => (
                             <option key={region} value={region}>{region}</option>
                         ))}
@@ -400,12 +429,12 @@ const BookingPage = () => {
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     {clinics.map(clinic => (
                         clinic.latitude && clinic.longitude && (
-                            <Marker key={clinic.id} position={[clinic.latitude, clinic.longitude]}>
+                            <Marker key={clinic.id} position={[clinic.latitude, clinic.longitude]} icon={locationMarkerIcon}>
                                 <Popup>
                                     <div>
                                         <strong>{clinic.name}</strong>
                                         <div>{clinic.city}, {clinic.region}</div>
-                                        <button onClick={() => handleClinicSelect(clinic)}>Select This Clinic</button>
+                                        <button onClick={() => handleClinicSelect(clinic)}>Выберите эту клинику</button>
                                     </div>
                                 </Popup>
                             </Marker>

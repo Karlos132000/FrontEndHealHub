@@ -3,7 +3,7 @@
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #1c226b;
     border-radius: 8px;
     background-color: #f9f9f9;
 }
@@ -11,8 +11,8 @@
 .profile-title {
     text-align: center;
     margin-bottom: 20px;
-    color: #fff; /* Change text color to white for better contrast */
-    background-color:#5c67f2; /* Dark background for the title */
+    color:#5c67f2; /* Change text color to white for better contrast */
+    /*background-color:#5c67f2; !* Dark background for the title *!*/
     padding: 10px 0; /* Add some padding around the text */
     border-radius: 4px; /* Optional: rounds the corners of the title background */
 }
@@ -24,11 +24,11 @@
 }
 
 .profile-image {
-    width: 50px;  /* Set width for the image to appear as an icon */
-    height: 50px; /* Set height to maintain aspect ratio */
+    width: 150px;  /* Set width for the image to appear as an icon */
+    height: 150px; /* Set height to maintain aspect ratio */
     object-fit: cover; /* Ensures the image covers the set dimension without distorting */
     border-radius: 50%;  /* Makes the image round */
-    border: 1px solid #ddd;
+    border: 4px solid #5c67f2;
 }
 
 .appointments-list {
@@ -55,4 +55,60 @@
 
 .appointment-button:hover {
     background-color: #d32f2f;
+}
+
+.appointments-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.appointment-card {
+    background-color:#e6e6ff;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-details {
+    margin-bottom: 15px;
+}
+
+.appointment-doctor,
+.appointment-clinic,
+.appointment-date,
+.appointment-location {
+    margin-bottom: 5px;
+}
+
+.appointment-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.appointment-update-button,
+.appointment-delete-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.appointment-update-button {
+    background-color: #4caf50; /* A green color for update action */
+    color: white;
+}
+
+.appointment-update-button:hover {
+    background-color: #388e3c; /* Darker green on hover */
+}
+
+.appointment-delete-button {
+    background-color: #f44336; /* Red color for delete action */
+    color: white;
+}
+
+.appointment-delete-button:hover {
+    background-color: #d32f2f; /* Darker red on hover */
 }

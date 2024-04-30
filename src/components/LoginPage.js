@@ -22,11 +22,11 @@ const LoginPage = ({ setLoggedIn }) => {
                 setLoggedIn(true);
                 navigate('/');
             } else {
-                alert('Вход в систему не удался. Пожалуйста, проверьте свои учетные данные и повторите попытку.');
+                alert('Login failed. Please check your credentials and try again.');
             }
         } catch (error) {
             console.error('Login error:', error);
-            alert('Вход не удался из за сетевой ошибки.');
+            alert('Login failed due to a network error.');
         }
     };
 
@@ -35,14 +35,14 @@ const LoginPage = ({ setLoggedIn }) => {
             <h2 className="login-title">Вход</h2>
             <form onSubmit={handleSubmit} className="login-form">
                 <div>
-                    <label>почта:</label>
+                    <label>Email:</label>
                     <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
                 </div>
                 <div>
-                    <label>Пароль:</label>
+                    <label>Password:</label>
                     <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
                 </div>
-                <button type="submit">Вход</button>
+                <button type="submit">Вход </button>
             </form>
         </div>
     );

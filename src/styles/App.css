@@ -1,13 +1,29 @@
-/* App.css */
+.app-logo {
+  height: 95px; /* Adjust the size of your logo */
+  /* Add any additional styling you need for your logo */
+}
+/* Set the background color on the body to ensure it covers the full height of the page */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #e6e6ff; /* The desired background color */
+}
 
 .app-container {
+  min-height: 100vh; /* Ensure it at least covers the full viewport height */
   text-align: center;
 }
 
+/* Rest of the styles */
+
+
 .top-nav {
-  background-color:#5c67f2; /* Or any color that matches your design */
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  /*background-color: #5c67f2;*/
+  /*box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
 }
 
 .top-nav ul {
@@ -15,6 +31,7 @@
   padding: 0;
   margin: 0;
   overflow: hidden;
+  color: wheat;
 }
 
 .top-nav ul li {
@@ -24,7 +41,7 @@
 
 .top-nav ul li a {
   display: block;
-  color: white;
+  color: #4a56d2;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -41,7 +58,7 @@
   background-color: transparent;
   cursor: pointer;
   padding: 14px 16px;
-  color: white;
+  color: #910000;
   text-align: center;
 }
 
@@ -49,3 +66,4 @@
   background-color: #ddd;
   color: black;
 }
+

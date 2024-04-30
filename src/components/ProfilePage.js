@@ -70,7 +70,7 @@ const ProfilePage = () => {
             if (response.ok) {
                 // Remove the deleted appointment from state
                 setAppointments(appointments.filter(appointment => appointment.id !== appointmentId));
-                alert('alert');
+                alert('Appointment cancelled successfully.');
             } else {
                 throw new Error('Could not cancel the appointment.');
             }
@@ -78,6 +78,13 @@ const ProfilePage = () => {
             console.error('Delete appointment error:', error);
             alert(error.message);
         }
+    };
+
+    const handleUpdateAppointment = (appointmentId) => {
+        // Logic to handle appointment update
+        // This will likely involve setting some state to populate a form with the appointment details,
+        // or navigating to a different route where the user can update their appointment.
+        console.log('Update appointment with id:', appointmentId);
     };
 
     const handleImageUpload = async (event) => {
@@ -130,29 +137,43 @@ const ProfilePage = () => {
     return (
         <div className="profile-container">
             <h2 className="profile-title">Профиль пользователя</h2>
-            <div className="profile-info"> почта: {userDetails.email}</div>
-            <div className="profile-info">Имя пользователя: {userDetails.username}</div>
+            <img src={userDetails.imageUrl || 'http://localhost:3360/images/default-profile.png'} alt="Profile" className="profile-image"/>
+            <input type="file" onChange={handleImageUpload} />
+
+            <div className="profile-info">Email: {userDetails.email}</div>
+            <div className="profile-info">Имя {userDetails.username}</div>
             <div className="profile-info">Город: {userDetails.city}</div>
             <div className="profile-info">Регион: {userDetails.region}</div>
             <div className="profile-info">Тип: {userDetails.role}</div>
             <div className="profile-info">Номер телефона: {userDetails.phoneNumber}</div>
 
-            <img src={userDetails.imageUrl || 'http://localhost:3360/images/default-profile.png'} alt="Profile" className="profile-image"/>
-            <input type="file" onChange={handleImageUpload} />
-            <h3>Appointments</h3>
-            <ul className="appointments-list">
+            <h3 className="appointments-title">записи</h3>
+            <div className="appointments-container">
                 {appointments.length > 0 ? (
                     appointments.map((appointment) => (
-                        <li key={appointment.id} className="appointment-item">
-                            Appointment with Dr. {appointment.doctorName} at {appointment.clinicName} on {format(new Date(appointment.date + 'T' + appointment.time), 'PPPPp')} located at {appointment.location}.
-                            <button onClick={() => handleDeleteAppointment(appointment.id)} className="appointment-button">Cancel</button>
-                        </li>
+                        <div key={appointment.id} className="appointment-card">
+                            <div className="appointment-details">
+                                <div className="appointment-doctor">Dr. {appointment.doctorName}</div>
+                                <div className="appointment-clinic">{appointment.clinicName}</div>
+                                <div className="appointment-date">
+                                    {format(new Date(appointment.date + 'T' + appointment.time), 'PPPPp')}
+                                </div>
+                                <div className="appointment-location">{appointment.location}</div>
+                            </div>
+                            <div className="appointment-actions">
+                                <button onClick={() => handleUpdateAppointment(appointment.id)} className="appointment-update-button">
+                                    Обновить
+                                </button>
+                                <button onClick={() => handleDeleteAppointment(appointment.id)} className="appointment-delete-button">
+                                    Отменить
+                                </button>
+                            </div>
+                        </div>
                     ))
                 ) : (
-                    //tr
                     <p>Не найдено записи.</p>
                 )}
-            </ul>
+            </div>
         </div>
     );
 };
