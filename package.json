@@ -1,6 +1,6 @@
 {
-  "homepage": "http://Karlos132000.github.io/FrontEndHealhub",
-  "name": "front-end",
+  "homepage": "https://Karlos132000.github.io/HealHubDeploy",
+  "name": "HealHubDeploy",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "gh-pages": "^6.1.1",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "vite": "^5.3.1"
   }
 }
