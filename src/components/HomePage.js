@@ -1,12 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/HomePage.css';
-import medicalProfessionalsImage from '../assets/images/teamMED.png'; // Ensure this path is correct
+import medicalProfessionalsImage from '../images/teamMED.png'; // Ensure this path is correct
 
 const HomePage = () => {
     let navigate = useNavigate();
 
     const handleBookNowClick = () => {
+        if (window.ym) {
+            window.ym(97430458, 'reachGoal', 'MainButtonVisit');
+        }
         navigate('/booking');
     };
 

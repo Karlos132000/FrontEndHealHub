@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
-// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import '../styles/BookingPage.css'; // Import the new CSS file here
+import '../styles/BookingPage.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-import LocationMarkerImage from '../assets/images/LocationMarker.png';
-
+import LocationMarkerImage from '../images/LocationMarker.png';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet'; // Import Leaflet library
+import L from 'leaflet';
 import Flatpickr from 'react-flatpickr';
-
-import 'flatpickr/dist/flatpickr.min.css'; // Make sure you import the CSS
-
+import 'flatpickr/dist/flatpickr.min.css';
+import YandexMap from './YandexMap';
+import React, { useState, useEffect, useContext } from 'react';
+import { useAuth, AuthProvider } from './context/auth-context';
 
 // Define your cities and regions mapping
 const citiesWithRegions = {
@@ -19,16 +17,25 @@ const citiesWithRegions = {
     // ... more cities and regions
 };
 
-const formatTime24Hour = (timeString) => {
-    const time = new Date('1970-01-01T' + timeString + 'Z');
-    return time.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', hour12: false });
-};
+const formatDateTimeISO = (date, time) => {
+    if (!date || !time) {
+        throw new RangeError('Недействительная дата или время');
+    }
 
-const formatDateToRussian = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
-};
+    const [hours, minutes, seconds] = time.split(':');
 
+    const dateTime = new Date(date);
+    dateTime.setHours(parseInt(hours, 10));
+    dateTime.setMinutes(parseInt(minutes, 10));
+    dateTime.setSeconds(parseInt(seconds, 10));
+
+    if (isNaN(dateTime.getTime())) {
+        throw new RangeError('Недействительный формат даты');
+    }
+    console.log("Date:", date);
+    console.log("Time:", time);
+    return dateTime.toISOString();
+};
 
 const BookingPage = () => {
     const [specialties, setSpecialties] = useState([]);
@@ -47,20 +54,29 @@ const BookingPage = () => {
     const [showMap, setShowMap] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const { isLoggedIn } = useAuth();
+
+    useEffect(() => {
+        console.log("User Logged In:", isLoggedIn);
+        // Implement any logic that needs to run when isLoggedIn changes
+    }, [isLoggedIn]);
+
+
+    window.ym(97430458, 'reachGoal', 'BookAppointment');
+
 
     const query = new URLSearchParams(location.search);
     const specialtyQueryParam = query.get('specialty');
 
     const locationMarkerIcon = L.icon({
         iconUrl: LocationMarkerImage,
-        iconSize: [32, 32], // Set the size of the marker icon
-        iconAnchor: [16, 32], // Set the anchor point of the marker icon
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
     });
 
     useEffect(() => {
         if (specialtyQueryParam) {
-            // Make sure to set the specialty ID correctly, if it needs to be an integer you might need to convert it
-            const specialtyId = specialtyQueryParam; // If IDs are numbers, use: parseInt(specialtyQueryParam, 10)
+            const specialtyId = specialtyQueryParam;
             setSelectedSpecialtyId(specialtyId);
         }
     }, [specialtyQueryParam]);
@@ -70,11 +86,9 @@ const BookingPage = () => {
             setIsLoading(true);
             try {
                 const response = await fetch('http://localhost:3360/specialties');
-                if (!response.ok) throw new Error('Problem fetching specialties');
+                if (!response.ok) throw new Error('Проблема с получением специальностей');
                 const data = await response.json();
                 setSpecialties(data);
-
-                // After fetching, check if the URL parameter matches any fetched specialty ID
                 const specialtyFromParam = data.find(s => s.id.toString() === specialtyQueryParam);
                 if (specialtyFromParam) {
                     setSelectedSpecialtyId(specialtyFromParam.id);
@@ -88,7 +102,6 @@ const BookingPage = () => {
 
         fetchSpecialties();
     }, [specialtyQueryParam]);
-
 
     useEffect(() => {
         setRegions(citiesWithRegions[selectedCity] || []);
@@ -107,12 +120,12 @@ const BookingPage = () => {
             const url = `http://localhost:3360/doctors?clinicId=${encodeURIComponent(selectedClinic)}`;
             try {
                 const response = await fetch(url);
-                if (!response.ok) throw new Error(`Failed to fetch doctors, status: ${response.status}`);
+                if (!response.ok) throw new Error(`Не удалось получить врачей, статус: ${response.status}`);
                 const data = await response.json();
                 setDoctors(data);
             } catch (error) {
-                console.error('Failed to fetch doctors:', error);
-                alert('Failed to fetch doctors: ' + error.message);
+                console.error('Не удалось получить врачей:', error);
+                alert('Не удалось получить врачей: ' + error.message);
             } finally {
                 setIsLoading(false);
             }
@@ -121,25 +134,21 @@ const BookingPage = () => {
         fetchDoctors();
     }, [selectedClinic]);
 
-    // Ensure useEffect runs only when selectedClinic changes
-
     useEffect(() => {
         const fetchClinics = async () => {
             setIsLoading(true);
             try {
                 const response = await fetch(`http://localhost:3360/clinics/search?specialtyId=${selectedSpecialtyId}&city=${encodeURIComponent(selectedCity)}&region=${encodeURIComponent(selectedRegion)}`);
-                if (!response.ok) throw new Error('Problem fetching clinics');
+                if (!response.ok) throw new Error('Проблема с получением клиник');
                 let data = await response.json();
-                // Filter out clinics without valid latitude and longitude
                 data = data.filter(clinic => clinic.latitude != null && clinic.longitude != null);
                 if (data.length > 0) {
                     setMapCenter([data[0].latitude, data[0].longitude]);
                 }
                 setClinics(data);
-                console.log('Clinics Data:', data);  // Check the console to see what data is being loaded
-                setClinics(data);
+                console.log('Данные клиник:', data);
             } catch (error) {
-                console.error('Error fetching clinics:', error);
+                console.error('Ошибка при получении данных о клиниках:', error);
             } finally {
                 setIsLoading(false);
             }
@@ -150,11 +159,8 @@ const BookingPage = () => {
         }
     }, [selectedSpecialtyId, selectedCity, selectedRegion]);
 
-
-
     const handleSpecialtyChange = (e) => {
         setSelectedSpecialtyId(e.target.value);
-        // Add query parameter to URL when specialty is changed
         navigate(`?specialty=${e.target.value}`);
     };
 
@@ -167,7 +173,6 @@ const BookingPage = () => {
     };
 
     const handleClinicChange = (e) => {
-
         setSelectedClinic(e.target.value);
     };
 
@@ -179,108 +184,81 @@ const BookingPage = () => {
         setAppointmentDate(e.target.value);
     };
 
-    const handleAppointmentTimeChange = (e) => {
-        // Convert input time to 24-hour format immediately or before using it
-        const formattedTime = formatTime24Hour(e.target.value);
-        setAppointmentTime(formattedTime);
+    const handleAppointmentTimeChange = (selectedDates, dateStr, instance) => {
+        if (selectedDates.length > 0) {
+            const time = selectedDates[0];
+            const formattedTime = time.toTimeString().split(' ')[0];
+            setAppointmentTime(formattedTime);
+        } else {
+            console.error('Время не выбрано');
+        }
     };
-
-
-    // const [mapCenter, setMapCenter] = useState([50.5, 30.5]); // Default center
 
     const handleClinicSelect = (clinic) => {
-        setSelectedClinic(clinic.id); // Make sure this is a number or string ID
+        setSelectedClinic(clinic.id);
         setMapCenter([clinic.latitude, clinic.longitude]);
+        setShowMap(false); // Hide the map after selecting a clinic
     };
-    // clinicId
-    // clinic.id
 
     const handleSearch = async () => {
         if (!selectedSpecialtyId || !selectedCity || !selectedRegion) {
-            alert('Please select a specialty, city, and region.');
+            alert('Пожалуйста, выберите специальность, город и регион.');
             return;
         }
         setIsLoading(true);
         try {
             const response = await fetch(`http://localhost:3360/clinics/search?specialtyId=${selectedSpecialtyId}&city=${encodeURIComponent(selectedCity)}&region=${encodeURIComponent(selectedRegion)}`);
-            if (!response.ok) throw new Error('Problem fetching clinics');
+            if (!response.ok) throw new Error('Проблема с получением клиник');
             const data = await response.json();
             setClinics(data);
-            setShowMap(true); // Show the map as clinics are fetched
+            setShowMap(true);
         } catch (error) {
             console.error(error);
-            alert('Failed to fetch clinics.');
-            setShowMap(false); // Hide the map on error
+            alert('Не удалось получить клиники.');
+            setShowMap(false);
         } finally {
             setIsLoading(false);
-        }
-    };
-
-    const bookAppointment = async () => {
-        if (!selectedDoctor || !appointmentDate || !appointmentTime) {
-            alert('Please select a doctor, date, and time for your appointment.');
-
-            return;
-        }
-
-        const formattedDate = new Date(appointmentDate).toLocaleDateString('ru-RU', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
-        const combinedDateTime = `${formattedDate}T${appointmentTime}`;
-
-        const appointmentDetails = {
-            doctorId: selectedDoctor,
-            userId: localStorage.getItem('userId'),
-            clinicId: selectedClinic,
-            specialtyId: selectedSpecialtyId,
-            dateTime: combinedDateTime,
-        };
-        console.log("Appointment Details:", appointmentDetails);
-
-
-        try {
-            const response = await fetch('http://localhost:3360/appointments/book', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(appointmentDetails),
-            });
-
-            if (!response.ok) {
-                throw new Error('Problem booking appointment');
-            }
-            alert(' успешно забронировано!!');
-        } catch (error) {
-            console.error('Error booking appointment:', error);
-            alert('Failed to book appointment.');
         }
     };
 
     const DoctorDetails = ({ doctor }) => {
         const [selectedDate, setSelectedDate] = useState('');
         const [selectedTime, setSelectedTime] = useState('');
+        const { isLoggedIn } = useAuth(); // Using the custom hook to get auth status
 
-        // Correctly scoped date selection handler
         const handleDateChange = (e) => {
             setSelectedDate(e.target.value);
         };
 
-        // Correctly scoped time selection handler
-        const handleTimeChange = (e) => {
-            setSelectedTime(e.target.value);
+        const handleTimeChange = (selectedDates, dateStr, instance) => {
+            if (selectedDates.length > 0) {
+                const time = selectedDates[0];
+                const formattedTime = time.toTimeString().split(' ')[0];
+                setSelectedTime(formattedTime);
+            } else {
+                console.error('Время не выбрано');
+            }
         };
 
-
         const bookDoctorAppointment = async () => {
-            if (!selectedDate || !selectedTime) {
-                alert('Please select a date and time for your appointment.');
+            if (!isLoggedIn) {
+                console.error("Попытка записи без входа в систему.");
+                alert("Вы должны войти в систему, чтобы записаться на прием.");
                 return;
             }
 
-            const formattedDate = formatDateToRussian(selectedDate);
-            const formattedTime = formatTime24Hour(selectedTime); // Ensure time is in 24-hour format
-            const combinedDateTime = `${formattedDate}T${formattedTime}`;
+            if (!selectedDate || !selectedTime) {
+                alert('Пожалуйста, выберите дату и время для вашего приема.');
+                return;
+            }
+
+            let combinedDateTime;
+            try {
+                combinedDateTime = formatDateTimeISO(selectedDate, selectedTime);
+            } catch (error) {
+                alert(error.message);
+                return;
+            }
 
             const appointmentDetails = {
                 doctorId: doctor.id,
@@ -292,21 +270,29 @@ const BookingPage = () => {
 
             try {
                 const response = await fetch('http://localhost:3360/appointments/book', {
+
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json' // Ensure to accept JSON responses
+                    },
+                    credentials: 'include', // Important if cookies are involved
                     body: JSON.stringify(appointmentDetails),
                 });
 
                 if (!response.ok) {
-                    throw new Error('Problem booking appointment');
+                    const errorDetails = await response.json(); // Parsing the JSON response body
+                    throw new Error('Проблема с бронированием приема: ' + errorDetails.message); // Custom message using server response
                 }
 
                 alert('успешно забронировано!!');
             } catch (error) {
-                console.error('Error booking appointment:', error);
-                alert('Failed to book appointment.');
+                console.error('Ошибка при бронировании приема:', error);
+                alert('Не удалось забронировать прием: ' + error.message); // More descriptive error message
             }
         };
+
+
 
         return (
             <div className="doctor-details-container">
@@ -331,7 +317,7 @@ const BookingPage = () => {
                                 <label htmlFor="appointment-time">Выберите время:</label>
                                 <Flatpickr
                                     data-enable-time
-                                    value={appointmentTime}
+                                    value={selectedTime}
                                     onChange={handleTimeChange}
                                     options={{
                                         enableTime: true,
@@ -347,15 +333,11 @@ const BookingPage = () => {
                 </div>
             </div>
         );
-
-
     };
 
     return (
         <div className="home-container">
-
             <h1 className="home-title">Записаться на прием</h1>
-
             <div className="select-container">
                 <select value={selectedSpecialtyId} onChange={handleSpecialtyChange}>
                     <option value="">Выберите специальность</option>
@@ -365,15 +347,12 @@ const BookingPage = () => {
                         </option>
                     ))}
                 </select>
-
-
                 <select value={selectedCity} onChange={handleCityChange}>
                     <option value="">Выберите город</option>
                     {Object.keys(citiesWithRegions).map(city => (
                         <option key={city} value={city}>{city}</option>
                     ))}
                 </select>
-
                 {selectedCity && (
                     <select value={selectedRegion} onChange={handleRegionChange}>
                         <option value="">Выберите регион</option>
@@ -382,70 +361,27 @@ const BookingPage = () => {
                         ))}
                     </select>
                 )}
-
                 <button onClick={handleSearch} disabled={isLoading}>Поиск клиник</button>
             </div>
-
-            {/*{!isLoading && clinics.length > 0 && (*/}
-            {/*    <div className="select-container">*/}
-            {/*        <select value={selectedClinic} onChange={handleClinicChange}>*/}
-            {/*            <option value="">Choose a Clinic</option>*/}
-            {/*            {clinics.map(clinic => (*/}
-            {/*                <option key={clinic.id} value={clinic.id}>{clinic.name}</option>*/}
-            {/*            ))}*/}
-            {/*        </select>*/}
-            {/*    </div>*/}
-            {/*)}*/}
-
-            {!isLoading && doctors.length > 0 && (
-                doctors.map(doctor => (
-                    <DoctorDetails key={doctor.id} doctor={doctor} />
-                ))
-            )}
-
-            {/*{!isLoading && doctors.length > 0 && (*/}
-            {/*    <div className="select-container">*/}
-            {/*        <select value={selectedDoctor} onChange={handleDoctorChange}>*/}
-            {/*            <option value="">Select a Doctor</option>*/}
-            {/*            {doctors.map(doctor => (*/}
-            {/*                <option key={doctor.id} value={doctor.id}>{doctor.name}</option>*/}
-            {/*            ))}*/}
-            {/*        </select>*/}
-            {/*    </div>*/}
-            {/*)}*/}
-
-            {/*<div className="date-time-container">*/}
-            {/*    <input type="date" value={appointmentDate} onChange={handleAppointmentDateChange} />*/}
-            {/*    <input type="time" value={appointmentTime} onChange={handleAppointmentTimeChange} />*/}
-            {/*</div>*/}
-
-            {/*<button onClick={bookAppointment}>Book Appointment</button>*/}
-            {/*{isLoading && <p>Loading...</p>}*/}
-            {/*{!isLoading && !clinics.length && !selectedClinic && <p>No clinics found for the selected specialty and location, or not yet searched.</p>}*/}
-            {/*{!isLoading && !doctors.length && selectedClinic && <p>No doctors found in the selected clinic.</p>}*/}
-
-            {showMap && (
-                <MapContainer center={mapCenter} zoom={13} style={{ height: '400px', width: '100%' }}>
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    {clinics.map(clinic => (
-                        clinic.latitude && clinic.longitude && (
-                            <Marker key={clinic.id} position={[clinic.latitude, clinic.longitude]} icon={locationMarkerIcon}>
-                                <Popup>
-                                    <div>
-                                        <strong>{clinic.name}</strong>
-                                        <div>{clinic.city}, {clinic.region}</div>
-                                        <button onClick={() => handleClinicSelect(clinic)}>Выберите эту клинику</button>
-                                    </div>
-                                </Popup>
-                            </Marker>
-                        )
-                    ))}
-                </MapContainer>
-            )}
+            {
+                !isLoading && doctors.length > 0 && (
+                    doctors.map(doctor => (
+                        <DoctorDetails key={doctor.id} doctor={doctor} />
+                    ))
+                )
+            }
+            {
+                showMap && (
+                    <YandexMap
+                        center={mapCenter}
+                        zoom={13}
+                        clinics={clinics}
+                        onSelectClinic={handleClinicSelect}
+                    />
+                )
+            }
         </div>
     );
 };
 
-export default BookingPage
-
-;
+export default BookingPage;

@@ -1,28 +1,39 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+    monospace;
 }
 
 .animated-text-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden; /* Hide the overflow to create the sliding effect */
-  height: 50px; /* Set a fixed height to control the viewable area of the sliding text */
+  overflow: hidden;
+  /* Hide the overflow to create the sliding effect */
+  height: 50px;
+  /* Set a fixed height to control the viewable area of the sliding text */
   margin-bottom: 20px;
 }
+
 @keyframes fade-in-out {
-  0%, 100% { opacity: 0; }
-  25%, 75% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  25%,
+  75% {
+    opacity: 1;
+  }
 }
 
 .animated-text {

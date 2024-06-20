@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/AboutUsPage.css'; // Make sure you have this CSS file created
-import teamImage from '../assets/images/3635297.png'; // Adjust the path as necessary
-import additionalImage from '../assets/images/3740749.png'; // Path for the new image that will be shown after clicking 'Read More'
+import teamImage from '../images/3635297.png'; // Adjust the path as necessary
+import additionalImage from '../images/3740749.png'; // Path for the new image that will be shown after clicking 'Read More'
 
 const AboutUsPage = () => {
     const [showMore, setShowMore] = useState(false);

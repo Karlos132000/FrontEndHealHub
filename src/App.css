@@ -1,0 +1,140 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #e6e6ff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.footer {
+  background-color: #4a56d2;
+  color: #fff;
+  padding: 20px 0;
+  /* Increased padding */
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4rem;
+  /* Increased padding */
+  align-items: center;
+  /* Vertically align content */
+  flex-wrap: wrap;
+  /* Ensure it wraps on small screens */
+}
+
+.footer-section {
+  flex: 1;
+  padding: 0 20px;
+  /* Added padding */
+}
+
+.footer-section h4,
+.footer-section ul,
+.footer-section p {
+  margin: 10px 0;
+  /* Consistent margin */
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-section p {
+  margin-bottom: 0;
+  /* Remove bottom margin from paragraphs */
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    /* Stack footer content vertically on small screens */
+  }
+
+  .footer-section {
+    margin-bottom: 20px;
+    /* Add margin for stacking */
+    text-align: center;
+    /* Center-align text for consistency */
+  }
+}
+
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.top-nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  /* Space between the links */
+}
+
+.top-nav ul li {
+  margin: 0;
+}
+
+.top-nav ul li a,
+.top-nav ul li button {
+  color: #4a56d2;
+  text-align: center;
+  text-decoration: none;
+  padding: 14px 16px;
+  display: block;
+}
+
+.top-nav ul li a:hover,
+.top-nav ul li button:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.top-nav ul li button {
+  font: inherit;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 14px 16px;
+  color: #910000;
+}
+
+/* .app-logo {
+  height: 300px;
+} */
+
+.app-logo,
+.footer-logo {
+  height: 80px;
+  /* Adjust the size as needed */
+}
+
+.top-nav img,
+.footer img {
+  vertical-align: middle;
+}

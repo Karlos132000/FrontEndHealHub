@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/RegisterPage.css'; // Ensure you import the CSS file correctly
+import '../styles/RegisterPage.css'; // Убедитесь, что файл CSS правильно подключен
 
 const RegisterPage = () => {
     const [formData, setFormData] = useState({
@@ -13,7 +13,7 @@ const RegisterPage = () => {
         specialtyId: null,
         clinicId: null,
         phoneNumber: '',
-
+        age: '', // Добавлен возраст пользователя
     });
     const navigate = useNavigate();
 
@@ -27,6 +27,11 @@ const RegisterPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // Проверка возраста на клиентской стороне
+        if (parseInt(formData.age, 10) < 18) {
+            alert('Вы должны быть не младше 18 лет для регистрации.');
+            return;
+        }
         try {
             const response = await fetch('http://localhost:3360/api/auth/register', {
                 method: 'POST',
@@ -36,12 +41,15 @@ const RegisterPage = () => {
             if (response.ok) {
                 navigate('/login');
             } else {
-                alert('Registration failed. Please try again.');
+                alert('Регистрация не удалась. Пожалуйста, попробуйте еще раз.');
             }
         } catch (error) {
-            console.error('Registration error:', error);
-            alert('Registration failed due to a network error.');
+            console.error('Ошибка регистрации:', error);
+            alert('Регистрация не удалась из-за сетевой ошибки.');
         }
+
+        window.ym(97430458, 'reachGoal', 'Register');
+
     };
 
     return (
@@ -49,17 +57,13 @@ const RegisterPage = () => {
             <h2 className="register-title">Регистрация</h2>
             <form onSubmit={handleSubmit} className="register-form">
                 <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-                <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} required />
-                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
-                <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} required />
-                <input type="text" name="region" placeholder="Region" value={formData.region} onChange={handleChange} required />
-                <input type="tel" name="phoneNumber" placeholder="Phone Number" value={formData.phoneNumber} onChange={handleChange} required />
-
-                {/*<input type="text" name="role" placeholder="Role" value={formData.role} onChange={handleChange} />*/}
-                {/*<input type="number" name="specialtyId" placeholder="Specialty ID (optional)" value={formData.specialtyId} onChange={handleChange} />*/}
-                {/*<input type="number" name="clinicId" placeholder="Clinic ID" value={formData.clinicId} onChange={handleChange} />*/}
-
-                <button type="submit">Регистрация</button>
+                <input type="text" name="username" placeholder="Имя пользователя" value={formData.username} onChange={handleChange} required />
+                <input type="password" name="password" placeholder="Пароль" value={formData.password} onChange={handleChange} required />
+                <input type="text" name="city" placeholder="Город" value={formData.city} onChange={handleChange} required />
+                <input type="text" name="region" placeholder="Регион" value={formData.region} onChange={handleChange} required />
+                <input type="tel" name="phoneNumber" placeholder="Номер телефона" value={formData.phoneNumber} onChange={handleChange} required />
+                <input type="number" name="age" placeholder="Возраст" value={formData.age} onChange={handleChange} required min="18" />
+                <button type="submit">Зарегистрироваться</button>
             </form>
         </div>
     );

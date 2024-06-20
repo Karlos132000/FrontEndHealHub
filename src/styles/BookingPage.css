@@ -24,8 +24,10 @@
 /*}*/
 
 .top-nav ul li a:hover {
-    color: #fff; /* Text color on hover */
+    color: #fff;
+    /* Text color on hover */
 }
+
 .home-container {
     max-width: 800px;
     margin: 20px auto;
@@ -35,7 +37,8 @@
     text-align: center;
     margin-bottom: 20px;
     font-size: 1.5rem;
-    color: #5c67f2;;
+    color: #5c67f2;
+    ;
 
 }
 
@@ -72,53 +75,68 @@
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Added shadow for depth */
-    background-color: white; /* Card background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Added shadow for depth */
+    background-color: white;
+    /* Card background */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center content */
+    align-items: center;
+    /* Center content */
 }
 
 .doctor-profile {
     display: flex;
     align-items: center;
-    width: 100%; /* Full width */
+    width: 100%;
+    /* Full width */
     margin-bottom: 15px;
-    background-color: #f9f9f9; /* Light background for the profile section */
+    background-color: #f9f9f9;
+    /* Light background for the profile section */
     border-radius: 8px;
     padding: 10px;
 }
 
 .doctor-image {
-    width: 100px; /* Larger image */
+    width: 100px;
+    /* Larger image */
     height: 100px;
     border-radius: 50%;
     margin-right: 15px;
-    border: 3px solid #5c67f2; /* Border color similar to button background */
+    border: 3px solid #5c67f2;
+    /* Border color similar to button background */
 }
 
 
 .doctor-info {
-    flex: 1; /* Take up remaining space */
+    flex: 1;
+    /* Take up remaining space */
     display: flex;
-    flex-direction: column; /* Stack info vertically */
+    flex-direction: column;
+    /* Stack info vertically */
 }
 
 .doctor-info h2 {
     margin-top: 0;
     margin-bottom: 5px;
-    color: #333; /* Darker text for better readability */
+    color: #333;
+    /* Darker text for better readability */
 }
 
 .doctor-info p {
-    margin: 5px 0; /* Spacing for readability */
+    margin: 5px 0;
+    /* Spacing for readability */
 }
+
 .booking-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center booking items */
-    width: 100%; /* Full width */
-    margin-top: 10px; /* Space from profile */
+    align-items: center;
+    /* Center booking items */
+    width: 100%;
+    /* Full width */
+    margin-top: 10px;
+    /* Space from profile */
 }
 
 
@@ -136,9 +154,12 @@
 
 input[type="date"],
 input[type="time"] {
-    width: 100%; /* Full width inputs */
-    padding: 10px; /* Larger padding for touch friendliness */
-    margin-bottom: 10px; /* Space between inputs */
+    width: 100%;
+    /* Full width inputs */
+    padding: 10px;
+    /* Larger padding for touch friendliness */
+    margin-bottom: 10px;
+    /* Space between inputs */
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -157,12 +178,14 @@ input[type="time"] {
 }
 
 .search-select {
-    flex-grow: 1; /* Allow the selects to grow */
+    flex-grow: 1;
+    /* Allow the selects to grow */
 }
 
 .search-button {
     padding: 10px 20px;
-    background-color: #5c67f2; /* Or any color you prefer */
+    background-color: #5c67f2;
+    /* Or any color you prefer */
     color: white;
     border: none;
     border-radius: 4px;
@@ -176,8 +199,10 @@ input[type="time"] {
         flex-direction: column;
     }
 
-    .search-select, .search-button {
-        width: 100%; /* Full width on small screens */
+    .search-select,
+    .search-button {
+        width: 100%;
+        /* Full width on small screens */
     }
 }
 
@@ -209,11 +234,16 @@ button {
 
 
 .overview-image {
-    width: 100%; /* or any width you prefer */
-    max-width: 600px; /* to ensure it doesn't get too large */
-    display: block; /* block display for proper spacing */
-    margin: 20px auto; /* centered and with some margin */
-    border-radius: 8px; /* optional, for rounded corners */
+    width: 100%;
+    /* or any width you prefer */
+    max-width: 600px;
+    /* to ensure it doesn't get too large */
+    display: block;
+    /* block display for proper spacing */
+    margin: 20px auto;
+    /* centered and with some margin */
+    border-radius: 8px;
+    /* optional, for rounded corners */
 }
 
 

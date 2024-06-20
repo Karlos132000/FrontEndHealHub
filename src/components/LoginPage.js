@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/LoginPage.css'; // Ensure you import the CSS file correctly
+import { useAuth } from './context/auth-context';
+import '../styles/LoginPage.css';
 
-const LoginPage = ({ setLoggedIn }) => {
+const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const { setLoggedIn } = useAuth();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    window.ym(97430458, 'reachGoal', 'login');
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         try {
             const response = await fetch('http://localhost:3360/api/auth/login', {
                 method: 'POST',
@@ -18,31 +23,27 @@ const LoginPage = ({ setLoggedIn }) => {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('token', data.accessToken);
-                localStorage.setItem('userId', data.userId); // Assuming 'userId' is part of the response
-                setLoggedIn(true);
+                setLoggedIn(true, data.accessToken);
                 navigate('/');
             } else {
-                alert('Login failed. Please check your credentials and try again.');
+                console.error('Login failed with status: ', response.status);
+                alert('Вход не выполнен. Пожалуйста, проверьте свои учетные данные и повторите попытку.');
             }
         } catch (error) {
             console.error('Login error:', error);
-            alert('Login failed due to a network error.');
+            alert('Вход не выполнен из-за сетевой ошибки.');
         }
     };
 
     return (
         <div className="login-container">
-            <h2 className="login-title">Вход</h2>
+            <h1 className="login-title">Вход в систему</h1>
             <form onSubmit={handleSubmit} className="login-form">
-                <div>
-                    <label>Email:</label>
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-                </div>
-                <button type="submit">Вход </button>
+                <label>Email:</label>
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+                <label>Пароль:</label>
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                <button type="submit">Вход</button>
             </form>
         </div>
     );
