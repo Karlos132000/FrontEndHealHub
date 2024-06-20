@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/FrontEndHealhub/static/css/main.947d397e.css",
+    "main.js": "/FrontEndHealhub/static/js/main.4c015b05.js",
+    "static/js/453.f7be5b23.chunk.js": "/FrontEndHealhub/static/js/453.f7be5b23.chunk.js",
+    "static/media/3740749.png": "/FrontEndHealhub/static/media/3740749.008d37c664d9a6c4621c.png",
+    "static/media/teamMED.png": "/FrontEndHealhub/static/media/teamMED.b4ecf4649bd7bcbfefd5.png",
+    "static/media/3635297.png": "/FrontEndHealhub/static/media/3635297.c40d9d074d6324b6ee36.png",
+    "static/media/logo-no-background.png": "/FrontEndHealhub/static/media/logo-no-background.7c9bf05ff9cab63688d6.png",
+    "static/media/patient-being-examined-by-doctor-clinic_23-2148866845.jpg": "/FrontEndHealhub/static/media/patient-being-examined-by-doctor-clinic_23-2148866845.9bde1a4e5876d4c8b7c7.jpg",
+    "static/media/man-holding-clock-time-management-concept_23-2148823171.jpg": "/FrontEndHealhub/static/media/man-holding-clock-time-management-concept_23-2148823171.268d49919ff01d5ce2de.jpg",
+    "static/media/find-person-job-opportunity_24877-63457.jpg": "/FrontEndHealhub/static/media/find-person-job-opportunity_24877-63457.9a333308e92081a3e574.jpg",
+    "static/media/health-professional-team-collection_23-2148485546.jpg": "/FrontEndHealhub/static/media/health-professional-team-collection_23-2148485546.3b2286edf51fe8d0eb17.jpg",
+    "static/media/LocationMarker.png": "/FrontEndHealhub/static/media/LocationMarker.db21153af6faff0008e2.png",
+    "index.html": "/FrontEndHealhub/index.html",
+    "main.947d397e.css.map": "/FrontEndHealhub/static/css/main.947d397e.css.map",
+    "main.4c015b05.js.map": "/FrontEndHealhub/static/js/main.4c015b05.js.map",
+    "453.f7be5b23.chunk.js.map": "/FrontEndHealhub/static/js/453.f7be5b23.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.947d397e.css",
+    "static/js/main.4c015b05.js"
+  ]
+}
